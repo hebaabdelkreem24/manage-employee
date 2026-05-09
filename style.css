@@ -1,0 +1,89 @@
+* { font-family: 'Inter', sans-serif; }
+body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height: 100vh; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+::-webkit-scrollbar-thumb { background: rgba(255,165,0,0.4); border-radius: 3px; }
+
+.glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+.glass-form { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); }
+
+.stat-card { position: relative; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.stat-card:nth-child(1)::before { background: linear-gradient(90deg, #f59e0b, #f97316); }
+.stat-card:nth-child(2)::before { background: linear-gradient(90deg, #10b981, #34d399); }
+.stat-card:nth-child(3)::before { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+
+.stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.stat-card:nth-child(1) .stat-icon { background: rgba(245,158,11,0.15); }
+.stat-card:nth-child(2) .stat-icon { background: rgba(16,185,129,0.15); }
+.stat-card:nth-child(3) .stat-icon { background: rgba(99,102,241,0.15); }
+
+.form-input { transition: all 0.3s ease; border: 2px solid #e5e7eb; background: #f9fafb; }
+.form-input:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245,158,11,0.1); background: #fff; }
+
+.form-select { transition: all 0.3s ease; border: 2px solid #e5e7eb; background: #f9fafb; cursor: pointer; }
+.form-select:focus { outline: none; border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245,158,11,0.1); background: #fff; }
+
+.btn-primary { background: linear-gradient(135deg, #f59e0b, #f97316); transition: all 0.3s ease; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,158,11,0.35); }
+.btn-primary:active { transform: translateY(0); }
+
+.table-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: separate; border-spacing: 0; }
+thead th { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+tbody tr { transition: all 0.2s ease; }
+tbody tr:hover { background: rgba(255,255,255,0.04); }
+
+.btn-edit, .btn-delete, .btn-view {
+    padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s ease; border: none;
+    display: inline-flex; align-items: center; gap: 4px;
+}
+.btn-edit { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.btn-edit:hover { background: rgba(245,158,11,0.3); transform: translateY(-1px); }
+.btn-delete { background: rgba(239,68,68,0.15); color: #ef4444; }
+.btn-delete:hover { background: rgba(239,68,68,0.3); transform: translateY(-1px); }
+.btn-view { background: rgba(99,102,241,0.15); color: #818cf8; }
+.btn-view:hover { background: rgba(99,102,241,0.3); transform: translateY(-1px); }
+
+.search-box { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; }
+.search-box:focus { background: rgba(255,255,255,0.12); border-color: rgba(245,158,11,0.5); box-shadow: 0 0 0 4px rgba(245,158,11,0.08); outline: none; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeInUp 0.5s ease forwards; }
+
+.empty-state { text-align: center; padding: 60px 20px; color: rgba(255,255,255,0.3); }
+
+@media (max-width: 768px) {
+    .mobile-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+    .mobile-card-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+    .mobile-card-label { color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mobile-card-value { color: #fff; font-weight: 600; font-size: 14px; }
+}
+
+.toast { position: fixed; bottom: 30px; right: 30px; padding: 14px 24px; border-radius: 12px; color: white; font-weight: 600; font-size: 14px; z-index: 9999; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); display: flex; align-items: center; gap: 10px; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-success { background: linear-gradient(135deg, #10b981, #059669); }
+.toast-error { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.toast-info { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+
+.header-glow { text-shadow: 0 0 40px rgba(245,158,11,0.3); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box { background: #1e1b4b; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 28px; width: 100%; max-width: 480px; transform: scale(0.9); transition: transform 0.3s ease; }
+.modal-overlay.open .modal-box { transform: scale(1); }
+
+.salary-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; }
+.salary-row:last-child { border-bottom: none; }
+.salary-label { color: rgba(255,255,255,0.5); }
+.salary-value { font-weight: 600; color: #fff; }
+
+.role-badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.role-Operator { background: rgba(245,158,11,0.15); color: #f59e0b; }
+.role-Salesman { background: rgba(16,185,129,0.15); color: #10b981; }
+.role-Admin { background: rgba(99,102,241,0.15); color: #818cf8; }
+
+.section-divider { height: 1px; background: rgba(0,0,0,0.08); margin: 12px 0; }
+.config-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
