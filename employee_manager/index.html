@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+</head>
+<body class="text-white min-h-screen p-4 md:p-6 lg:p-8">
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Details Modal -->
+    <div id="detailModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div id="modalAvatar" class="w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white font-bold text-lg"></div>
+                    <div>
+                        <h3 id="modalName" class="font-bold text-lg"></h3>
+                        <p id="modalDept" class="text-white/40 text-sm"></p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-white/30 hover:text-white text-2xl transition-colors">✕</button>
+            </div>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="text-center mb-8 animate-in">
+        <div class="flex items-center justify-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-xl shadow-lg">👥</div>
+            <h1 class="text-3xl md:text-4xl font-extrabold header-glow bg-gradient-to-r from-amber-300 via-orange-400 to-amber-300 bg-clip-text text-transparent">
+                Employee Manager
+            </h1>
+        </div>
+        <p class="text-white/40 text-sm">Manage your team & salary calculations</p>
+    </header>
+
+    <!-- Stats -->
+    <div id="stats" class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-5xl mx-auto mb-8">
+        <div class="stat-card glass rounded-2xl p-5 animate-in" style="animation-delay:0.1s">
+            <div class="flex items-center gap-4">
+                <div class="stat-icon">👤</div>
+                <div>
+                    <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Total Employees</p>
+                    <h2 id="statCount" class="text-3xl font-bold text-amber-400 mt-1">0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card glass rounded-2xl p-5 animate-in" style="animation-delay:0.2s">
+            <div class="flex items-center gap-4">
+                <div class="stat-icon">💰</div>
+                <div>
+                    <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Total Net Salary</p>
+                    <h2 id="statTotal" class="text-3xl font-bold text-emerald-400 mt-1">$0</h2>
+                </div>
+            </div>
+        </div>
+        <div class="stat-card glass rounded-2xl p-5 animate-in" style="animation-delay:0.3s">
+            <div class="flex items-center gap-4">
+                <div class="stat-icon">📊</div>
+                <div>
+                    <p class="text-white/40 text-xs font-semibold uppercase tracking-wider">Average Net Salary</p>
+                    <h2 id="statAvg" class="text-3xl font-bold text-indigo-400 mt-1">$0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainSection" class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6">
+
+        <!-- Form Section -->
+        <div id="formsection" class="lg:w-[360px] shrink-0 animate-in" style="animation-delay:0.4s">
+            <div class="glass-form rounded-2xl p-6 shadow-2xl">
+                <div class="flex items-center gap-2 mb-5">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-sm">✏️</div>
+                    <h3 class="text-lg font-bold text-gray-800" id="formTitle">Add Employee</h3>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Full Name</label>
+                        <input type="text" id="empName" placeholder="e.g. Ahmed Mohamed" class="form-input w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Department</label>
+                        <input type="text" id="empdept" placeholder="e.g. Engineering" class="form-input w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Role</label>
+                        <select id="empRole" class="form-select w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm">
+                            <option value="">Select Role...</option>
+                            <option value="Operator">Operator (1× extra rate)</option>
+                            <option value="Salesman">Salesman (1.5× extra rate)</option>
+                            <option value="Admin">Admin (2× extra rate)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Basic Salary ($)</label>
+                        <input type="number" id="empsalary" placeholder="e.g. 5000" min="0" class="form-input w-full px-4 py-2.5 rounded-xl text-gray-800 text-sm" />
+                    </div>
+
+                    <div class="section-divider"></div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Working Hours Config</p>
+
+                    <div class="config-row">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Daily hrs</label>
+                            <input type="number" id="dailyHours" value="8" min="1" max="24" class="form-input w-full px-3 py-2 rounded-xl text-gray-800 text-sm text-center" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Days/week</label>
+                            <input type="number" id="weeklyDays" value="5" min="1" max="7" class="form-input w-full px-3 py-2 rounded-xl text-gray-800 text-sm text-center" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Weeks/mo</label>
+                            <input type="number" id="monthlyWeeks" value="4" min="1" max="5" class="form-input w-full px-3 py-2 rounded-xl text-gray-800 text-sm text-center" />
+                        </div>
+                    </div>
+
+                    <div class="section-divider"></div>
+                    <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Salary Adjustments</p>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Extra Hours</label>
+                            <input type="number" id="empExtra" placeholder="0" min="0" class="form-input w-full px-3 py-2.5 rounded-xl text-gray-800 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Bonus ($)</label>
+                            <input type="number" id="empBonus" placeholder="0" min="0" class="form-input w-full px-3 py-2.5 rounded-xl text-gray-800 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Penalties ($)</label>
+                            <input type="number" id="empPenalties" placeholder="0" min="0" class="form-input w-full px-3 py-2.5 rounded-xl text-gray-800 text-sm" />
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 mb-1">Tax Rate (%)</label>
+                            <input type="number" id="empTax" placeholder="e.g. 15" min="0" max="100" class="form-input w-full px-3 py-2.5 rounded-xl text-gray-800 text-sm" />
+                        </div>
+                    </div>
+
+                    <button onclick="addEmployee()" id="submitBtn" class="btn-primary w-full py-3.5 rounded-xl text-white font-bold text-sm tracking-wide mt-1">
+                        <span id="btnIcon">➕</span> <span id="btnText">Add Employee</span>
+                    </button>
+                    <button onclick="cancelEdit()" id="cancelBtn" class="hidden w-full py-3 rounded-xl text-gray-500 font-semibold text-sm border-2 border-gray-200 hover:bg-gray-50 transition-all">
+                        ✕ Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div id="tabelSection" class="flex-1 animate-in" style="animation-delay:0.5s">
+            <div class="glass rounded-2xl p-5 md:p-6 shadow-2xl">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-sm">📋</div>
+                        <h3 class="text-lg font-bold">Employee List</h3>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-white/30">🔍</span>
+                        <input id="searchInput" placeholder="Search employees..." oninput="renderTable()"
+                            class="search-box w-full sm:w-64 pl-10 pr-4 py-2.5 rounded-xl text-white text-sm placeholder-white/30">
+                    </div>
+                </div>
+
+                <!-- Desktop Table -->
+                <div class="table-container hidden md:block">
+                    <table class="w-full" id="tabel">
+                        <thead>
+                            <tr>
+                                <th class="text-left text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3 rounded-tl-xl">ID</th>
+                                <th class="text-left text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3">Employee</th>
+                                <th class="text-left text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3">Department</th>
+                                <th class="text-left text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3">Role</th>
+                                <th class="text-left text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3">Basic</th>
+                                <th class="text-left text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3">Net Salary</th>
+                                <th class="text-center text-xs font-semibold text-white/50 uppercase tracking-wider px-4 py-3 rounded-tr-xl">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Cards -->
+                <div id="mobileCards" class="md:hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center mt-12 mb-4 text-white/20 text-xs">
+        <p>Employee Manager &mdash; Built with ❤️</p>
+    </footer>
+
+    <script src="./main.js"></script>
+</body>
+</html>
